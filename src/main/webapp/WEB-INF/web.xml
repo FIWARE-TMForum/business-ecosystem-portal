@@ -1,0 +1,88 @@
+<web-app id="WebApp_ID" version="2.4"
+	xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+	
+	<display-name>WMarket</display-name>
+	
+	<!-- Error Handlers -->
+	<error-page>
+    	<error-code>401</error-code>
+    	<location>/WEB-INF/views/errormessages/401.jsp</location>
+	</error-page>
+	
+	<error-page>
+    	<error-code>403</error-code>
+    	<location>/WEB-INF/views/errormessages/403.jsp</location>
+	</error-page>
+	
+	<error-page>
+    	<error-code>404</error-code>
+    	<location>/WEB-INF/views/errormessages/404.jsp</location>
+	</error-page>
+
+	<error-page>
+    	<error-code>500</error-code>
+    	<location>/WEB-INF/views/errormessages/500.jsp</location>
+	</error-page>
+	
+	<!-- Spring Security -->
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!-- RestEasy listeners -->
+	<listener>
+		<listener-class>org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap</listener-class>
+	</listener>
+
+	<listener>
+		<listener-class>org.jboss.resteasy.plugins.spring.SpringContextLoaderListener</listener-class>
+	</listener>
+	
+	<!-- Start listener to avoid Memory leaks -->
+	<listener>
+		<listener-class>org.fiware.apps.marketplace.utils.ContextFinalizer</listener-class>
+	</listener>
+
+	<!-- Servlet configuration -->
+	<servlet>
+		<servlet-name>spring</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value></param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>spring</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+
+	<!-- Load beans -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+		classpath:/spring/config/BeanLocations.xml
+		</param-value>
+	</context-param>
+
+	<!-- Force SSL -->
+	<!-- <security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Entire Application</web-resource-name>
+			<url-pattern>/*</url-pattern>
+		</web-resource-collection>
+		<user-data-constraint>
+			<transport-guarantee>CONFIDENTIAL</transport-guarantee>
+		</user-data-constraint>
+	</security-constraint>-->
+
+</web-app>
