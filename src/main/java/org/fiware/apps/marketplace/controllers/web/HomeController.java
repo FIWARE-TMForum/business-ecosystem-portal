@@ -71,12 +71,11 @@ public class HomeController extends AbstractController {
 			user = getCurrentUser();
 
 			model.addAttribute("user", user);
-			model.addAttribute("title", "Catalogue - " + getContextName());
-			model.addAttribute("viewName", "GroupByCategory");
+			model.addAttribute("title", getContextName());
 
 			addFlashMessage(request, model);
 
-			view = new ModelAndView("offering.list", model);
+			view = new ModelAndView("app.home", model);
 			builder = Response.ok();
 		} catch (UserNotFoundException e) {
 			logger.warn("User not found", e);
@@ -99,7 +98,7 @@ public class HomeController extends AbstractController {
 		model.addAttribute("title", "Sign In - " + getContextName());
 		this.addFlashMessage(request, model);
 
-		return Response.ok().entity(new ModelAndView("core.login", model)).build();
+		return Response.ok().entity(new ModelAndView("app.login", model)).build();
 	}
 
 }

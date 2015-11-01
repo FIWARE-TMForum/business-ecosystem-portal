@@ -53,7 +53,7 @@ public abstract class AbstractController {
 	@Autowired private StoreBo storeBo;
 	@Autowired private DescriptionBo descriptionBo;
 
-	private String applicationName = "WMarket";
+	private String applicationName = "TM Forum Portal";
 
 	protected ModelAndView buildErrorView(Status status, String content) {
 
