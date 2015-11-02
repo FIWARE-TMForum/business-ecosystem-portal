@@ -14,11 +14,16 @@
     <script src="${ pageContext.request.contextPath }/resources/jquery-1.11.3/js/jquery.js"></script>
     <script src="${ pageContext.request.contextPath }/resources/bootstrap-3.3.5/js/bootstrap.js"></script>
     <script src="${ pageContext.request.contextPath }/resources/angular-1.4.7/js/angular.js"></script>
+    <script src="${ pageContext.request.contextPath }/resources/angular-1.4.7/js/angular-resource.js"></script>
     <script>
-      angular.module('app', [])
+      angular.module('app', ['app.services'])
+        .constant('USER_PROFILE', {
+          full_name: "${ user.displayName }",
+          username: "${ user.userName }"
+        })
         .constant('BASE_URL', "${ pageContext.request.contextPath }");
     </script>
-    <script src="${ pageContext.request.contextPath }/resources/core/js/utils.js"></script>
+    <script src="${ pageContext.request.contextPath }/resources/core/js/app.js"></script>
     <script src="${ pageContext.request.contextPath }/resources/core/js/services.js"></script>
     <script src="${ pageContext.request.contextPath }/resources/core/js/controllers.js"></script>
   </head>

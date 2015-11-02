@@ -3,19 +3,10 @@
  */
 
 angular.module('app')
+    .constant('TMFORUM_URL', '<server>:<port>/api')
     .constant('API_URLS', {
-        CATALOGUE: '/catalogManagement/catalog',
+        PRODUCT_CATALOGUE: '/catalogManagement/productCatalog/:id',
         CATEGORY: '/catalogManagement/category'
-    })
-    .constant('LIFECYCLE_STATUS', {
-        ACTIVE: 'Active',
-        LAUNCHED: 'Launched',
-        RETIRED: 'Retired'
-    })
-    .constant('CATALOGUE_TYPES', {
-        PRODUCT: 'Product Catalog',
-        RESOURCE: 'Resource Catalog',
-        SERVICE: 'Service Catalog'
     })
     .directive('bsModal', function () {
         var modals = {};
@@ -27,4 +18,8 @@ angular.module('app')
                 scope.modals = modals;
             }
         };
-    });
+    })
+    .config(['$httpProvider', function ($httpProvider) {
+        $httpProvider.defaults.useXDomain = true;
+        delete $httpProvider.defaults.headers.common['X-Requested-With'];
+    }]);

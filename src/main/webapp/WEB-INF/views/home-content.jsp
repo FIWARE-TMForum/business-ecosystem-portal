@@ -3,7 +3,7 @@
 
 <div class="row" ng-controller="HomeController">
   <div class="col-sm-3">
-    <div class="panel panel-default panel-catalogue">
+    <div class="panel panel-default panel-catalogue" ng-controller="ProductCatalogueCtrl">
       <div class="panel-heading">
         <span class="panel-title title-uppercase">Catalogues</span>
       </div>
@@ -15,23 +15,24 @@
               <button type="button" class="btn btn-default"><i class="fa fa-search fa-flip-horizontal"></i></button>
               <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><i class="fa fa-caret-down"></i></button>
               <ul class="dropdown-menu dropdown-menu-right">
-                <li><a ng-click="showCatalogueCreateModal()"><i class="fa fa-plus-circle fa-fw"></i>&nbsp; Create new catalogue</a></li>
+                <li><a ng-click="showCreateForm()"><i class="fa fa-plus-circle fa-fw"></i>&nbsp; Create new catalogue</a></li>
               </ul>
             </div>
           </div>
         </div>
+        <t:insertTemplate template="/WEB-INF/views/modals/catalogue-create-modal.jsp" />
         <div class="list-group">
-          <a class="list-group-item" ng-class="{'active': !activeCatalogue}" ng-click="showCatalogue()"><i class="fa fa-home fa-fw"></i>&nbsp; Home</a>
-          <a class="list-group-item active" ng-click="showCatalogue(activeCatalogue)" ng-hide="!activeCatalogue"><i class="fa fa-book fa-fw"></i>&nbsp; {{ activeCatalogue.name }}</a>
+          <a class="list-group-item" ng-class="{'active': !catalogueSelected}" ng-click="selectCatalogue()"><i class="fa fa-home fa-fw"></i>&nbsp; Home</a>
+          <a class="list-group-item active" ng-click="selectCatalogue(catalogueSelected)" ng-hide="!catalogueSelected"><i class="fa fa-book fa-fw"></i>&nbsp; {{ catalogueSelected.name }}</a>
         </div>
         <hr>
         <div class="list-group">
-          <a class="list-group-item" ng-class="{'disabled': catalogue.active}" ng-click="showCatalogue(catalogue)" ng-repeat="catalogue in catalogueList"><i class="fa fa-book fa-fw"></i>&nbsp; {{ catalogue.name }}</a>
+          <a class="list-group-item" ng-class="{'disabled': catalogue.active}" ng-click="selectCatalogue(catalogue)" ng-repeat="catalogue in catalogueList"><i class="fa fa-book fa-fw"></i>&nbsp; {{ catalogue.name }}</a>
         </div>
         <div class="text-center">
           <ul class="pagination pagination-sm">
-            <li ng-class="{'disabled': cataloguePage == 0}"><a><i class="fa fa-arrow-left"></i></a></li>
-            <li ng-class="{'disabled': cataloguePage == 0}"><a><i class="fa fa-arrow-right"></i></a></li>
+            <li class="disabled"><a><i class="fa fa-arrow-left"></i></a></li>
+            <li class="disabled"><a><i class="fa fa-arrow-right"></i></a></li>
           </ul>
         </div>
       </div>
@@ -72,6 +73,5 @@
   </div>
   <div class="col-sm-9"></div>
   <t:insertTemplate template="/WEB-INF/views/modals/settings-modal.jsp" />
-  <t:insertTemplate template="/WEB-INF/views/modals/catalogue-create-modal.jsp" />
   <t:insertTemplate template="/WEB-INF/views/modals/category-create-modal.jsp" />
 </div>

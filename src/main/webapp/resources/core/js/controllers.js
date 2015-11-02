@@ -16,61 +16,7 @@ angular.module('app')
             $scope.hidden = false;
         });
     }])
-    .controller('HomeController', ['$scope', '$rootScope', 'BASE_URL', 'catalogueServ', 'categoryServ', function ($scope, $rootScope, BASE_URL, catalogueServ, categoryServ) {
-
-        // CatalogueController
-
-        $scope.activeCatalogue = null;
-        $scope.createdCatalogue = {};
-
-        var createdCatalogue = angular.copy($scope.createdCatalogue);
-
-        $scope.catalogueList = catalogueServ.collection;
-        $scope.cataloguePage = 0;
-
-        $scope.showCatalogue = function showCatalogue(catalogue) {
-            if ($scope.activeCatalogue != null) {
-                $scope.activeCatalogue.active = false;
-            }
-
-            if (catalogue != null) {
-                $scope.activeCatalogue = catalogue;
-                $scope.activeCatalogue.active = true;
-                // request get:
-            } else {
-                $scope.activeCatalogue = null;
-                // request get:
-            }
-        };
-
-        catalogueServ.list();
-
-        $scope.currentStep = 1;
-        $scope.lastStepCompleted = 0;
-
-        $scope.nextStep = function nextStep(step) {
-            if ($scope.currentStep < step) {
-                $scope.lastStepCompleted = $scope.currentStep;
-            }
-            $scope.currentStep = step;
-        };
-
-        $scope.showStep = function showStep(step) {
-            $scope.currentStep = step;
-        };
-
-        $scope.showCatalogueCreateModal = function showCatalogueCreateModal() {
-            $scope.createdCatalogue = angular.copy(createdCatalogue);
-            $scope.currentStep = 1;
-            //$scope.catalogueStep1CreateForm.$setPristine();
-            $scope.modals['catalogue-create-modal'].modal("show");
-        };
-
-        $scope.createCatalogue = function createCatalogue(catalogue) {
-            console.log(catalogue);
-            $scope.closeModal();
-            $rootScope.$broadcast('alert', "The catalogue <strong>{{ name }}</strong> was created successfully.", {name: catalogue.name});
-        };
+    .controller('HomeController', ['$scope', '$rootScope', 'BASE_URL', 'ProductCatalogue', 'categoryServ', function ($scope, $rootScope, BASE_URL, ProductCatalogue, categoryServ) {
 
         // CategoryController
 
@@ -100,6 +46,62 @@ angular.module('app')
         };
 
         categoryServ.list();
+    }])
+    .controller('ProductCatalogueCtrl', ['$scope', '$rootScope', 'USER_PROFILE', 'ProductCatalogue', function ($scope, $rootScope, USER_PROFILE, ProductCatalogue) {
+
+        $scope.catalogueList = ProductCatalogue.collection;
+        $scope.catalogueSelected = null;
+        $scope.catalogueCreated = {validFor: {}};
+
+        $scope.currentStep = 1;
+
+        var autocomplete = function autocomplete(catalogueCreated) {
+            return angular.extend(catalogueCreated, {
+                type: ProductCatalogue.TYPE,
+                category: [],
+                lifecycleStatus: ProductCatalogue.LIFECYCLE_STATUS.ACTIVE,
+                relatedParty: [
+                    {
+                        id: USER_PROFILE.username,
+                        role: ProductCatalogue.PARTY_ROLES.OWNER
+                    }
+                ]
+            });
+        };
+
+        $scope.showStep = function showStep(step) {
+            if ($scope.currentStep != step) {
+                $scope.currentStep = step;
+            }
+        };
+
+        $scope.showCreateForm = function showCreateForm() {
+            $scope.minDateTime = new Date();
+            $scope.catalogueCreated = {validFor: {startDateTime: new Date()}};
+            $scope.currentStep = 1;
+            $scope.modals['create-catalogue'].modal("show");
+        };
+
+        $scope.createCatalogue = function createCatalogue(catalogue) {
+            ProductCatalogue.create(autocomplete(catalogue), function () {
+                $scope.modals['create-catalogue'].modal('hide');
+            });
+        };
+
+        $scope.selectCatalogue = function selectCatalogue(catalogue) {
+            if ($scope.catalogueSelected != null) {
+                $scope.catalogueSelected.active = false;
+            }
+
+            if (catalogue != null) {
+                $scope.catalogueSelected = catalogue;
+                $scope.catalogueSelected.active = true;
+            } else {
+                $scope.catalogueSelected = null;
+            }
+        };
+
+        ProductCatalogue.list();
     }])
     .controller('MyStockController', ['$scope', function ($scope) {
     }]);
