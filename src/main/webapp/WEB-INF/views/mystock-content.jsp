@@ -7,9 +7,15 @@
       <div class="panel-heading">
       </div>
       <div class="panel-body">
+        <ul class="nav nav-pills nav-stacked">
+          <li><a href="#/products">Products</a></li>
+          <li><a href="#/offerings">Offerings</a></li>
+        </ul>
       </div>
     </div>
   </div>
-  <div class="col-sm-9"></div>
+  <div class="col-sm-9">
+    <div ng-view></div>
+  </div>
   <t:insertTemplate template="/WEB-INF/views/modals/settings-modal.jsp" />
 </div>

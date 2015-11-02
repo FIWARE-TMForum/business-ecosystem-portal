@@ -3,7 +3,7 @@
  */
 
 angular.module('app')
-    .controller('UserController', ['$scope', 'BASE_URL', 'userServ', function ($scope, BASE_URL, userServ) {
+    .controller('UserController', ['$scope', '$route', 'BASE_URL', 'userServ', function ($scope, $route, BASE_URL, userServ) {
         $scope.credentials = {};
         $scope.signOut = function signOut() {
             return userServ.signOut();
@@ -17,6 +17,10 @@ angular.module('app')
         });
     }])
     .controller('HomeController', ['$scope', '$rootScope', function ($scope, $rootScope) {
+    }])
+    .controller('ProductCtrl', ['$scope', '$rootScope', function ($scope, $rootScope) {
+    }])
+    .controller('ProductOfferingCtrl', ['$scope', '$rootScope', function ($scope, $rootScope) {
     }])
     .controller('ProductCatalogueCtrl', ['$scope', '$rootScope', 'USER_PROFILE', 'ProductCatalogue', function ($scope, $rootScope, USER_PROFILE, ProductCatalogue) {
 

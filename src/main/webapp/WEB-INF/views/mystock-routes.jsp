@@ -1,0 +1,1 @@
+<script src="${ pageContext.request.contextPath }/resources/core/js/routes/mystock.js"></script>

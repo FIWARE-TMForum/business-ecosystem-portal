@@ -15,15 +15,18 @@
     <script src="${ pageContext.request.contextPath }/resources/bootstrap-3.3.5/js/bootstrap.js"></script>
     <script src="${ pageContext.request.contextPath }/resources/angular-1.4.7/js/angular.js"></script>
     <script src="${ pageContext.request.contextPath }/resources/angular-1.4.7/js/angular-resource.js"></script>
+    <script src="${ pageContext.request.contextPath }/resources/angular-1.4.7/js/angular-route.js"></script>
     <script>
-      angular.module('app', ['app.services'])
+      angular.module('app', ['app.services', 'ngRoute'])
         .constant('USER_PROFILE', {
           full_name: "${ user.displayName }",
           username: "${ user.userName }"
         })
-        .constant('BASE_URL', "${ pageContext.request.contextPath }");
+        .constant('BASE_URL', "${ pageContext.request.contextPath }")
+        .constant('TEMPLATE_URL', "${ pageContext.request.contextPath }/resources/core/templates");
     </script>
     <script src="${ pageContext.request.contextPath }/resources/core/js/app.js"></script>
+    <t:insertAttribute name="routes" ignore="true" />
     <script src="${ pageContext.request.contextPath }/resources/core/js/services.js"></script>
     <script src="${ pageContext.request.contextPath }/resources/core/js/controllers.js"></script>
   </head>
