@@ -85,10 +85,6 @@ footer {
     letter-spacing: 1px;
 }
 
-.form-group:last-child {
-  margin-bottom: 0;
-}
-
 .alert-manager {
       display: inline-block;
   position: absolute;

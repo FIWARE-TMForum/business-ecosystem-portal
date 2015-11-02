@@ -23,6 +23,8 @@ angular.module('app')
         $scope.activeCatalogue = null;
         $scope.createdCatalogue = {};
 
+        var createdCatalogue = angular.copy($scope.createdCatalogue);
+
         $scope.catalogueList = catalogueServ.collection;
         $scope.cataloguePage = 0;
 
@@ -55,6 +57,13 @@ angular.module('app')
 
         $scope.showStep = function showStep(step) {
             $scope.currentStep = step;
+        };
+
+        $scope.showCatalogueCreateModal = function showCatalogueCreateModal() {
+            $scope.createdCatalogue = angular.copy(createdCatalogue);
+            $scope.currentStep = 1;
+            //$scope.catalogueStep1CreateForm.$setPristine();
+            $scope.modals['catalogue-create-modal'].modal("show");
         };
 
         $scope.createCatalogue = function createCatalogue(catalogue) {

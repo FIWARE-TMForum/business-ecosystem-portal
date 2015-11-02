@@ -29,31 +29,31 @@
                 <div class="form-group">
                   <label class="col-sm-3 col-sm-offset-1 control-label">Name</label>
                   <div class="col-sm-7">
-                    <input type="text" class="form-control" placeholder="Name" name="name", ng-model="newCatalogue.name" required>
+                    <input type="text" class="form-control" placeholder="Name" name="name", ng-model="createdCatalogue.name" required>
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-sm-3 col-sm-offset-1 control-label">Version</label>
                   <div class="col-sm-7">
-                    <input type="text" class="form-control" placeholder="Version" name="version" ng-model="newCatalogue.version" required>
+                    <input type="text" class="form-control" placeholder="Version" name="version" ng-model="createdCatalogue.version" required>
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-sm-3 col-sm-offset-1 control-label">Start datetime</label>
                   <div class="col-sm-4">
-                    <input type="date" class="form-control" name="startDate" ng-model="newCatalogue.startDate">
+                    <input type="date" class="form-control" name="startDate" ng-model="createdCatalogue.startDate">
                   </div>
                   <div class="col-sm-3">
-                    <input type="time" class="form-control" name="startTime" ng-model="newCatalogue.startTime">
+                    <input type="time" class="form-control" name="startTime" ng-model="createdCatalogue.startTime">
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-sm-3 col-sm-offset-1 control-label">End datetime</label>
                   <div class="col-sm-4">
-                    <input type="date" class="form-control" name="endDate" ng-model="newCatalogue.endDate">
+                    <input type="date" class="form-control" name="endDate" ng-model="createdCatalogue.endDate">
                   </div>
                   <div class="col-sm-3">
-                    <input type="time" class="form-control" name="endTime" ng-model="newCatalogue.endTime">
+                    <input type="time" class="form-control" name="endTime" ng-model="createdCatalogue.endTime">
                   </div>
                 </div>
               </div>
