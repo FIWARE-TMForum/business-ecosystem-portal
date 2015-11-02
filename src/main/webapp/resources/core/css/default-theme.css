@@ -1,0 +1,120 @@
+/*!
+ * Bootstrap v3.3.5 - Default Theme
+ */
+
+footer {
+  margin-top: 50px;
+}
+
+.text-ellipsis {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.row {
+  position: relative;
+}
+
+.dropdown-menu > li > a {
+  margin-bottom: 2px;
+}
+.dropdown-menu > li:last-child > a {
+  margin-bottom: 0;
+}
+
+.panel-body > :last-child {
+  margin-bottom: 0;
+}
+
+.btn-circle {
+  border-radius: 50%;
+}
+
+.hr-fiware {
+  height: 1px;
+  background-color: rgb(240, 230, 040);
+  border-top: 1px solid rgb(070, 185, 200);
+  border-bottom: 1px solid rgb(025, 060, 105);
+}
+
+.text-primary-lighter {
+  color: rgb(045, 140, 150);
+}
+
+.title-uppercase {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.pagination:last-child {
+    margin-bottom: 0;
+}
+
+.form-wizard {
+    position: relative;
+    margin-bottom: 30px;
+}
+
+.form-wizard-group {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+.form-wizard:before {
+    position: absolute;
+    display: block;
+    content: " ";
+    top: 17px;
+    width: 100%;
+    border-top: 1px solid rgb(200, 200, 200);
+}
+
+.form-wizard-step {
+    position: relative;
+    display: table-cell;
+    text-align: center;
+}
+.form-wizard-step h6 {
+    margin-top: 10px;
+    margin-bottom: 0;
+    color: rgb(045, 140, 150);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.form-group:last-child {
+  margin-bottom: 0;
+}
+
+.alert-manager {
+      display: inline-block;
+  position: absolute;
+  z-index: 10000;
+  right: 0;
+  top: -20px;
+  margin-right: 15px;
+}
+
+@media (min-width: 768px) {
+  .navbar-nav > li > a {
+    margin-top: 16px;
+    margin-right: 2px;
+    border-bottom: 4px solid transparent;
+  }
+  .navbar-nav > li:last-child > a {
+    margin-right: 0;
+  }
+
+  .navbar-brand > img {
+    height: 35px;
+  }
+  .navbar-brand > p {
+    margin-bottom: 0;
+    padding-right: 2px;
+    font-size: 11px;
+    line-height: 15px;
+  }
+}
