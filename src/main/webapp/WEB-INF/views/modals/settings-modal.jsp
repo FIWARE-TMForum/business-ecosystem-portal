@@ -6,21 +6,27 @@
         <h5 class="modal-title title-uppercase">Settings</h5>
       </div>
       <div class="modal-body">
-
         <ul class="nav nav-tabs">
           <li class="active"><a href="#">Profile</a></li>
         </ul>
-
-        <div class="form-group">
-          <label for="exampleInputEmail1">Full name</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" placeholder="${ user.displayName }" readonly>
-        </div>
-
-        <div class="form-group">
-          <label for="exampleInputEmail1">Email</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" placeholder="${ user.email }" readonly>
-        </div>
-
+        <form class="form-horizontal" name="userUpdateForm" novalidate>
+          <div class="row">
+            <div class="col-sm-10 col-sm-offset-1">
+              <div class="form-group">
+                <label class="col-sm-3 col-sm-offset-1 control-label">Full name</label>
+                <div class="col-sm-7">
+                  <input type="text" class="form-control" placeholder="${ user.displayName }" readonly>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 col-sm-offset-1 control-label">Email</label>
+                <div class="col-sm-7">
+                  <input type="text" class="form-control" placeholder="${ user.email }" readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
