@@ -87,4 +87,6 @@ angular.module('app')
         };
 
         categoryServ.list();
+    }])
+    .controller('MyStockController', ['$scope', function ($scope) {
     }]);

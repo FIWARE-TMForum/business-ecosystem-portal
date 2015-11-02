@@ -1,4 +1,4 @@
-<li><a href="${ pageContext.request.contextPath }/stock"><i class="fa fa-archive fa-fw"></i>&nbsp; My stock</a></li>
+<li><a href="${ pageContext.request.contextPath }/mystock"><i class="fa fa-archive fa-fw"></i>&nbsp; My stock</a></li>
 <li class="dropdown">
   <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user fa-fw"></i>&nbsp; ${ user.displayName } <i class="fa fa-caret-down"></i></a>
   <ul class="dropdown-menu">

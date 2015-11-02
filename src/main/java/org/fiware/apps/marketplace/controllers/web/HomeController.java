@@ -101,4 +101,33 @@ public class HomeController extends AbstractController {
 		return Response.ok().entity(new ModelAndView("app.landing", model)).build();
 	}
 
+	@GET
+	@Produces(MediaType.TEXT_HTML)
+	@Path("mystock")
+	public Response stockView(
+			@Context HttpServletRequest request) {
+
+		ModelAndView view;
+		ResponseBuilder builder;
+
+		try {
+			ModelMap model = new ModelMap();
+			User user = getCurrentUser();
+
+			model.addAttribute("user", user);
+			model.addAttribute("title", "My Stock - " + getContextName());
+
+			addFlashMessage(request, model);
+
+			view = new ModelAndView("app.mystock", model);
+			builder = Response.ok();
+		} catch (UserNotFoundException e) {
+			logger.warn("User not found", e);
+
+			view = buildErrorView(Status.INTERNAL_SERVER_ERROR, e.getMessage());
+			builder = Response.serverError();
+		}
+
+		return builder.entity(view).build();
+	}
 }
