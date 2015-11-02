@@ -66,6 +66,5 @@
         </ul>
       </div>
     </footer>
-    <t:insertAttribute name="modals" ignore="true" />
   </body>
 </html>

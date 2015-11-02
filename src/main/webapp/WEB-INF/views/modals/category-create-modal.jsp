@@ -1,4 +1,4 @@
-<div id="categoryCreateModal" bs-modal class="modal fade" tabindex="-1">
+<div id="category-create-modal" bs-modal class="modal fade" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">

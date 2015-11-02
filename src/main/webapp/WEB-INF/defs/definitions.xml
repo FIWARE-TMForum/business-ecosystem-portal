@@ -30,13 +30,11 @@
     <!-- Home View -->
     <definition name="app.home" extends="app.auth">
         <put-attribute name="content" value="/WEB-INF/views/home-content.jsp" />
-        <put-attribute name="modals" value="/WEB-INF/views/home-modals.jsp" />
     </definition>
 
     <!-- My Stock View -->
     <definition name="app.mystock" extends="app.auth">
         <put-attribute name="content" value="/WEB-INF/views/mystock-content.jsp" />
-        <put-attribute name="modals" value="/WEB-INF/views/mystock-modals.jsp" />
     </definition>
 
 </tiles-definitions>

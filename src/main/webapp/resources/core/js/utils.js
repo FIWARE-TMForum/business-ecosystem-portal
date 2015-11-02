@@ -18,12 +18,13 @@ angular.module('app')
         SERVICE: 'Service Catalog'
     })
     .directive('bsModal', function () {
+        var modals = {};
+
         return {
             restrict: 'A',
-            link: function (scope, element) {
-                scope.closeModal = function closeModal() {
-                    element.modal('hide');
-                };
+            link: function (scope, element, attrs) {
+                modals[attrs.id] = element;
+                scope.modals = modals;
             }
         };
     });

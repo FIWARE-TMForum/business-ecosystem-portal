@@ -86,6 +86,10 @@ angular.module('app')
             }
         };
 
+        $scope.showCategoryCreateModal = function showCategoryCreateModal() {
+            $scope.modals['category-create-modal'].modal("show");
+        };
+
         categoryServ.list();
     }])
     .controller('MyStockController', ['$scope', function ($scope) {
