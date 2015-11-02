@@ -16,36 +16,7 @@ angular.module('app')
             $scope.hidden = false;
         });
     }])
-    .controller('HomeController', ['$scope', '$rootScope', 'BASE_URL', 'ProductCatalogue', 'categoryServ', function ($scope, $rootScope, BASE_URL, ProductCatalogue, categoryServ) {
-
-        // CategoryController
-
-        $scope.activeCategory = null;
-        $scope.createdCategory = {};
-
-        $scope.categoryList = categoryServ.collection;
-        $scope.categoryPage = 0;
-
-        $scope.showCategory = function showCategory(category) {
-            if ($scope.activeCategory != null) {
-                $scope.activeCategory.active = false;
-            }
-
-            if (category != null) {
-                $scope.activeCategory = category;
-                $scope.activeCategory.active = true;
-                // request get:
-            } else {
-                $scope.activeCategory = null;
-                // request get:
-            }
-        };
-
-        $scope.showCategoryCreateModal = function showCategoryCreateModal() {
-            $scope.modals['category-create-modal'].modal("show");
-        };
-
-        categoryServ.list();
+    .controller('HomeController', ['$scope', '$rootScope', function ($scope, $rootScope) {
     }])
     .controller('ProductCatalogueCtrl', ['$scope', '$rootScope', 'USER_PROFILE', 'ProductCatalogue', function ($scope, $rootScope, USER_PROFILE, ProductCatalogue) {
 
@@ -102,6 +73,45 @@ angular.module('app')
         };
 
         ProductCatalogue.list();
+    }])
+    .controller('ProductCategoryCtrl', ['$scope', '$rootScope', 'ProductCategory', function ($scope, $rootScope, ProductCategory) {
+
+        $scope.categoryList = ProductCategory.collection;
+        $scope.categorySelected = null;
+        $scope.categoryCreated = {validFor: {}};
+
+        var autocomplete = function autocomplete(categoryCreated) {
+            return angular.extend(categoryCreated, {
+                isRoot: true,
+                lifecycleStatus: ProductCategory.LIFECYCLE_STATUS.ACTIVE
+            });
+        };
+
+        $scope.showCreateForm = function showCreateForm() {
+            $scope.categoryCreated = {validFor: {startDateTime: new Date()}};
+            $scope.modals['create-category'].modal("show");
+        };
+
+        $scope.createCategory = function createCategory(category) {
+            ProductCategory.create(autocomplete(category), function () {
+                $scope.modals['create-category'].modal('hide');
+            });
+        };
+
+        $scope.selectCategory = function selectCategory(category) {
+            if ($scope.categorySelected != null) {
+                $scope.categorySelected.active = false;
+            }
+
+            if (category != null) {
+                $scope.categorySelected = category;
+                $scope.categorySelected.active = true;
+            } else {
+                $scope.categorySelected = null;
+            }
+        };
+
+        ProductCategory.list();
     }])
     .controller('MyStockController', ['$scope', function ($scope) {
     }]);

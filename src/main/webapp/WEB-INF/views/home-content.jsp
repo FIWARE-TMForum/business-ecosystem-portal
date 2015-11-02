@@ -37,7 +37,7 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-default panel-category">
+    <div class="panel panel-default panel-category" ng-controller="ProductCategoryCtrl">
       <div class="panel-heading">
         <span class="panel-title title-uppercase">Categories</span>
       </div>
@@ -49,23 +49,24 @@
               <button type="button" class="btn btn-default"><i class="fa fa-search fa-flip-horizontal"></i></button>
               <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><i class="fa fa-caret-down"></i></button>
               <ul class="dropdown-menu dropdown-menu-right">
-                <li><a ng-click="showCategoryCreateModal()"><i class="fa fa-plus-circle fa-fw"></i>&nbsp; Create new category</a></li>
+                <li><a ng-click="showCreateForm()"><i class="fa fa-plus-circle fa-fw"></i>&nbsp; Create new category</a></li>
               </ul>
             </div>
           </div>
         </div>
+        <t:insertTemplate template="/WEB-INF/views/modals/category-create-modal.jsp" />
         <div class="list-group">
-          <a class="list-group-item" ng-class="{'active': !activeCategory}" ng-click="showCategory()"><i class="fa fa-tags fa-fw"></i>&nbsp; All offerings</a>
-          <a class="list-group-item active" ng-click="showCategory(activeCategory)" ng-hide="!activeCategory"><i class="fa fa-tag fa-fw"></i>&nbsp; {{ activeCategory.name }}</a>
+          <a class="list-group-item" ng-class="{'active': !categorySelected}" ng-click="selectCategory()"><i class="fa fa-tags fa-fw"></i>&nbsp; All offerings</a>
+          <a class="list-group-item active" ng-click="selectCategory(categorySelected)" ng-hide="!categorySelected"><i class="fa fa-tag fa-fw"></i>&nbsp; {{ categorySelected.name }}</a>
         </div>
         <hr>
         <div class="list-group">
-          <a class="list-group-item" ng-class="{'disabled': category.active}" ng-click="showCategory(category)" ng-repeat="category in categoryList"><i class="fa fa-tag fa-fw"></i>&nbsp; {{ category.name }}</a>
+          <a class="list-group-item" ng-class="{'disabled': category.active}" ng-click="selectCategory(category)" ng-repeat="category in categoryList"><i class="fa fa-tag fa-fw"></i>&nbsp; {{ category.name }}</a>
         </div>
         <div class="text-center">
           <ul class="pagination pagination-sm">
-            <li ng-class="{'disabled': categoryPage == 0}"><a><i class="fa fa-arrow-left"></i></a></li>
-            <li ng-class="{'disabled': categoryPage == 0}"><a><i class="fa fa-arrow-right"></i></a></li>
+            <li class="disabled"><a><i class="fa fa-arrow-left"></i></a></li>
+            <li class="disabled"><a><i class="fa fa-arrow-right"></i></a></li>
           </ul>
         </div>
       </div>
@@ -73,5 +74,4 @@
   </div>
   <div class="col-sm-9"></div>
   <t:insertTemplate template="/WEB-INF/views/modals/settings-modal.jsp" />
-  <t:insertTemplate template="/WEB-INF/views/modals/category-create-modal.jsp" />
 </div>

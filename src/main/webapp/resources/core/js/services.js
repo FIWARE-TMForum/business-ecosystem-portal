@@ -14,10 +14,10 @@ angular.module('app.services', ['ngResource'])
             }
         };
     }])
-    .factory('ProductCatalogue', ['$resource', 'TMFORUM_URL', 'API_URLS', function ($resource, TMFORUM_URL, API_URLS) {
+    .factory('ProductCatalogue', ['$resource', 'TMFORUM_URL', function ($resource, TMFORUM_URL) {
         var service, Resource;
 
-        Resource = $resource(TMFORUM_URL + API_URLS.PRODUCT_CATALOGUE, {id: '@id'},
+        Resource = $resource(TMFORUM_URL + '/catalogManagement/productCatalog/:id', {id: '@id'},
             {});
 
         service = {
@@ -59,32 +59,42 @@ angular.module('app.services', ['ngResource'])
 
         return service;
     }])
-    .factory('categoryServ', ['$http', 'BASE_URL', 'API_URLS', function ($http, BASE_URL, API_URLS) {
-        var svc = {
+    .factory('ProductCategory', ['$resource', 'TMFORUM_URL', function ($resource, TMFORUM_URL) {
+        var service, Resource;
+
+        Resource = $resource(TMFORUM_URL + '/catalogManagement/productCategory/:id', {id: '@id'},
+            {});
+
+        service = {
+            LIFECYCLE_STATUS: {
+                ACTIVE: 'Active'
+            },
             collection: [],
             list: function list() {
-                var fakeData = [
-                    {pk: 1, name: "Category 1"},
-                    {pk: 2, name: "Category 2"},
-                    {pk: 3, name: "Category 3"},
-                ];
+                return Resource.query(function (response) {
+                    angular.copy(response, service.collection);
+                }, function (response) {
+                    var fakeData = [
+                        {pk: 1, name: "Category 1"},
+                        {pk: 2, name: "Category 2"},
+                        {pk: 3, name: "Category 3"},
+                    ];
 
-                angular.copy(fakeData, svc.collection);
-
-                /*$http.get(BASE_URL + API_URLS.CATEGORY)
-                    .then(function onsuccess(response) {
-                        angular.copy(response, svc.collection);
-                    }, function onerror(response) {
-                    });*/
+                    angular.copy(fakeData, service.collection);
+                });
             },
             create: function create(catalogue, next) {
-                return $http.post(BASE_URL + API_URLS.CATEGORY, catalogue)
-                    .then(function onsuccess(response) {
-                        next(response);
-                    }, function onerror(response) {
-                    });
+                var entry = new Resource(catalogue);
+
+                return Resource.save(entry, function () {
+                    service.collection.unshift(entry);
+                    next(entry);
+                }, function () {
+                    service.collection.unshift(entry);
+                    next(entry);
+                });
             }
         };
 
-        return svc;
+        return service;
     }]);

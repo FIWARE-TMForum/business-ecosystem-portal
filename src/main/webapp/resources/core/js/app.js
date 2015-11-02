@@ -4,10 +4,6 @@
 
 angular.module('app')
     .constant('TMFORUM_URL', '<server>:<port>/api')
-    .constant('API_URLS', {
-        PRODUCT_CATALOGUE: '/catalogManagement/productCatalog/:id',
-        CATEGORY: '/catalogManagement/category'
-    })
     .directive('bsModal', function () {
         var modals = {};
 
