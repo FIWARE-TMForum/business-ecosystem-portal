@@ -32,27 +32,27 @@
             <span class="icon-bar"></span>
           </button>
           <a class="navbar-brand" href="${ pageContext.request.contextPath }">
-            <img src="${ pageContext.request.contextPath }/resources/images/tmforum-logo.png">
-            <p>Portal</p>
+            <img src="${ pageContext.request.contextPath }/resources/core/images/tmforum-logo.png">
+            <p class="text-right title-uppercase">Portal</p>
           </a>
         </div>
         <div class="collapse navbar-collapse" id="navbar-right">
-          <t:insertAttribute name="navbar" ignore="true" />
+          <ul class="nav navbar-nav navbar-right">
+            <t:insertAttribute name="navbar" ignore="true" />
+          </ul>
         </div>
       </div>
     </nav>
     <div class="container">
-      <div class="row">
-          <div class="alert-manager" ng-controller="MessageController">
-            <div class="alert alert-success" ng-class="{'hidden': hidden}">
-              <strong>Done!</strong> <span class="alert-message" ng-bind-html="message"></span>
-            </div>
-          </div>
-          <t:insertAttribute name="content" />
+      <div class="alert-manager" ng-controller="MessageController">
+        <div class="alert alert-success" ng-class="{'hidden': hidden}">
+          <strong>Done!</strong> <span class="alert-message" ng-bind-html="message"></span>
+        </div>
       </div>
+      <t:insertAttribute name="content" />
     </div>
     <footer class="clearfix">
-      <hr>
+      <hr class="hr-fiware">
       <div class="col-sm-6">
         <ul class="list-inline">
           <li class="text-muted"><small>© 2015 CoNWeT Lab., Universidad Politécnica de Madrid</small></li>

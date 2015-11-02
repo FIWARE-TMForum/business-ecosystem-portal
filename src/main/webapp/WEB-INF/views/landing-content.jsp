@@ -6,7 +6,7 @@
     <div class="col-sm-6">
       <div class="panel panel-default">
         <div class="panel-heading">
-          <span class="panel-title">Sign in</span>
+          <span class="panel-title title-uppercase">Sign in</span>
         </div>
         <div class="panel-body">
           <form name="signInForm" novalidate method="POST" action="<c:url value='j_spring_security_check' />">

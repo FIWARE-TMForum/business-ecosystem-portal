@@ -98,7 +98,7 @@ public class HomeController extends AbstractController {
 		model.addAttribute("title", "Sign In - " + getContextName());
 		this.addFlashMessage(request, model);
 
-		return Response.ok().entity(new ModelAndView("app.login", model)).build();
+		return Response.ok().entity(new ModelAndView("app.landing", model)).build();
 	}
 
 }
