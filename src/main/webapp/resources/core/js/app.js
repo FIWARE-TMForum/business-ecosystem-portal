@@ -3,7 +3,7 @@
  */
 
 angular.module('app')
-    .constant('TMFORUM_URL', '<server>:<port>/api')
+    .constant('TMFORUM_URL', 'http://130.206.121.54/DSPRODUCTCATALOG2')
     .directive('bsModal', function () {
         var modals = {};
 

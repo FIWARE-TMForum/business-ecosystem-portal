@@ -14,12 +14,13 @@ angular.module('app.services', ['ngResource'])
             }
         };
     }])
-    .factory('ProductCatalogue', ['$resource', 'TMFORUM_URL', function ($resource, TMFORUM_URL) {
+    .factory('ProductCatalogue', ['$resource', '$http', 'TMFORUM_URL', 'USER_PROFILE', function ($resource, $http, TMFORUM_URL, USER_PROFILE) {
         var service, Resource;
 
-        Resource = $resource(TMFORUM_URL + '/catalogManagement/productCatalog/:id', {id: '@id'},
-            {});
+        $http.defaults.headers.common['AUTHORIZATION']= 'Bearer ' + USER_PROFILE.BEARER_TOKEN;
 
+        Resource = $resource(TMFORUM_URL + '/api/catalogManagement/v2/catalog/:id', {id: '@id'},
+            {});
         service = {
             PARTY_ROLES: {
                 OWNER: 'Owner'
@@ -62,7 +63,7 @@ angular.module('app.services', ['ngResource'])
     .factory('ProductCategory', ['$resource', 'TMFORUM_URL', function ($resource, TMFORUM_URL) {
         var service, Resource;
 
-        Resource = $resource(TMFORUM_URL + '/catalogManagement/productCategory/:id', {id: '@id'},
+        Resource = $resource(TMFORUM_URL + '/api/catalogManagement/v2/category/:id', {id: '@id'},
             {});
 
         service = {
