@@ -1,46 +1,95 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans:beans xmlns="http://www.springframework.org/schema/security"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:beans="http://www.springframework.org/schema/beans"
-	xmlns:oauth="http://www.springframework.org/schema/security/oauth2"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-                           http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
-                           http://www.springframework.org/schema/security/oauth2 http://www.springframework.org/schema/security/spring-security-oauth2.xsd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+          http://www.springframework.org/schema/security
+          http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
-	<http auto-config="true" entry-point-ref="restAwareLoginUrlAuthenticationEntryPoint">
-		<!-- Login -->
-		<form-login login-page="/login" username-parameter="username"
-			password-parameter="password" default-target-url="/"
-			authentication-failure-url="/login?err=1" />
+	<security:authentication-manager alias="authenticationManager">
+		<security:authentication-provider ref="clientProvider" />
+	</security:authentication-manager>
+
+	<!-- urls and security configuration -->
+	<security:http auto-config="true" entry-point-ref="fiwareEntryPoint"
+		use-expressions="true" disable-url-rewriting="true">
+		<security:custom-filter before="CAS_FILTER" ref="apiHeaderFilter" />
+		<security:custom-filter after="CAS_FILTER" ref="clientFilter" />
 
 		<!-- Log the user out -->
-		<logout logout-url="/logout" logout-success-url="/login?out=1"
-			delete-cookies="JSESSIONID" invalidate-session="true" />
+		<security:logout logout-url="/logout" logout-success-url="${oauth2.server}/${oauth2.signOutPath}" delete-cookies="JSESSIONID" invalidate-session="true" />
 
 		<!-- Default URLs that are visible for everyone -->
-		<intercept-url pattern="/vocabulary/**" access="ROLE_ANONYMOUS,ROLE_USER" />
-		<intercept-url pattern="/demoservices/**" access="ROLE_ANONYMOUS,ROLE_USER" />
-		<intercept-url pattern="/media/**" access="ROLE_ANONYMOUS,ROLE_USER" />
-
-		<!-- This URL can be accessed anonymously to create a new account -->
-		<intercept-url pattern="/api/v2/user/**" access="ROLE_ANONYMOUS,ROLE_USER" />
-		<intercept-url pattern="/login" access="ROLE_ANONYMOUS" />
-		<intercept-url pattern="/register" access="ROLE_ANONYMOUS" />
-		<intercept-url pattern="/resources/**" access="ROLE_ANONYMOUS,ROLE_USER" />
+		<security:intercept-url pattern="/vocabulary/**" access="hasRole('ROLE_ANONYMOUS') or hasRole('ROLE_USER')" />
+		<security:intercept-url pattern="/demoservices/**" access="hasRole('ROLE_ANONYMOUS') or hasRole('ROLE_USER')" />
+		<security:intercept-url pattern="/media/**" access="hasRole('ROLE_ANONYMOUS') or hasRole('ROLE_USER')" />
+		
+		<!-- Callback must me also accessible by anonymous users -->
+		<security:intercept-url pattern="/callback/**" access="hasRole('ROLE_ANONYMOUS') or hasRole('ROLE_USER')" />
+		
+		<!-- When the IdM is working, users cannot be created or modified -->
+		<security:intercept-url pattern="/api/v2/user/**" method="POST" access="denyAll" />
+		<security:intercept-url pattern="/api/v2/user/**" method="PUT" access="denyAll" />
+		<security:intercept-url pattern="/api/v2/user/**" method="DELETE" access="denyAll" />
+		<security:intercept-url pattern="/api/v2/user/**" method="GET" access="hasRole('ROLE_USER')" />
+		
+		<!-- Resources can be accessed by all the users -->
+		<security:intercept-url pattern="/resources/**" access="hasRole('ROLE_ANONYMOUS') or hasRole('ROLE_USER')" />
 
 		<!-- Security rule for the rest of URLs -->
-		<intercept-url pattern="/**" access="ROLE_USER" />
-	</http>
+		<security:intercept-url pattern="/**" access="hasRole('ROLE_USER')" />
+	</security:http>
 
-	<beans:bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
-	
-	<beans:bean id="restAwareLoginUrlAuthenticationEntryPoint" class="org.fiware.apps.marketplace.security.entryPoints.RESTAwareLoginUrlAuthenticationEntryPoint">
-		<beans:constructor-arg value="/login" />
-	</beans:bean>
+	<!-- entry points -->
+	<bean id="fiwareEntryPoint"
+		class="org.fiware.apps.bep.security.entryPoints.RESTAwareClientAuthenticationEntryPoint">
+		<property name="client" ref="fiwareClient" />
+	</bean>
 
-	<authentication-manager>
-		<authentication-provider user-service-ref="userManagementService">
-			<password-encoder ref="encoder" />
-		</authentication-provider>
-	</authentication-manager>
+	<!-- clients definition -->
+	<bean id="fiwareClient" class="org.fiware.apps.bep.oauth2.FIWAREClient">
+		<property name="serverURL" value="${oauth2.server}" />
+		<property name="key" value="${oauth2.key}" />
+		<property name="secret" value="${oauth2.secret}" />
+		<property name="offeringProviderRole" value="${oauth2.providerRole}" />
+	</bean>
 
-</beans:beans>
+	<bean id="clients" class="org.pac4j.core.client.Clients">
+		<property name="callbackUrl" value="${oauth2.callbackURL}" />
+		<property name="clients">
+			<list>
+				<ref bean="fiwareClient" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- common to all clients -->
+	<bean id="clientFilter"
+		class="org.pac4j.springframework.security.web.ClientAuthenticationFilter">
+		<constructor-arg value="/callback" />
+		<property name="clients" ref="clients" />
+		<property name="sessionAuthenticationStrategy" ref="sas" />
+		<property name="authenticationManager" ref="authenticationManager" />
+	</bean>
+
+	<bean id="apiHeaderFilter"
+		class="org.fiware.apps.bep.oauth2.FIWAREHeaderAuthenticationFilter">
+		<constructor-arg name="baseUrl" value="/api/" />
+		<constructor-arg name="headerName" value="Authorization" />
+		<property name="client" ref="fiwareClient" />
+		<property name="authenticationManager" ref="authenticationManager" />
+	</bean>
+
+	<bean id="clientProvider"
+		class="org.pac4j.springframework.security.authentication.ClientAuthenticationProvider">
+		<property name="clients" ref="clients" />
+	</bean>
+
+	<bean id="httpSessionRequestCache" class="org.springframework.security.web.savedrequest.HttpSessionRequestCache" />
+
+	<bean id="sas" class="org.springframework.security.web.authentication.session.SessionFixationProtectionStrategy" />
+
+	<!-- Just to hide the password field -->
+	<bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+</beans>

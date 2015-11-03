@@ -12,24 +12,19 @@
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list>
-				<value>classpath:/properties/database.properties</value>
-				<value>classpath:/properties/marketplace.properties</value>
+				<value>classpath:/properties/bep.properties</value>
 			</list>
 		</property>
 	</bean>
 	
-	<bean class="org.fiware.apps.marketplace.utils.PropertiesUtil">
+	<bean class="org.fiware.apps.bep.utils.PropertiesUtil">
 		<property name="location">
-			<value>classpath:/properties/marketplace.properties</value>
+			<value>classpath:/properties/bep.properties</value>
 		</property>
 	</bean>
-	
-	<!-- Load Context Provider: TO BE REMOVED -->
-	<bean id="applicationContextProvider" class="org.fiware.apps.marketplace.utils.ApplicationContextProvider"></bean>
-	
 		
 	<!-- Security -->
-	<import resource="securityOAuth2.xml" />
+	<import resource="security.xml" />
 
 	<!-- Database Configuration -->
 	<import resource="../database/DataSource.xml" />
@@ -39,7 +34,7 @@
 	<mvc:resources mapping="/resources/**" location="/resources/" />
 
 	<!-- Auto scan the components -->
-	<context:component-scan base-package="org.fiware.apps.marketplace" />
+	<context:component-scan base-package="org.fiware.apps.bep" />
 
 	<!-- Import basic SpringMVC RestEasy integration -->
 	<import resource="classpath:springmvc-resteasy.xml" />
