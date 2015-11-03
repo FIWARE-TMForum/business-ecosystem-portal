@@ -70,7 +70,7 @@ public class User {
 	private String imageUrl;
 	private Date createdAt;
 	private String company;
-	private String authToken;
+	private String accessToken;
 	private boolean oauth2 = false;		// False by default
 	private boolean provider = false;		// False by default
 		
@@ -188,13 +188,13 @@ public class User {
 	}
 	
 	@XmlTransient
-	@Column(name = "auth_token")
-	public String getAuthToken() {
-		return authToken;
+	@Column(name = "access_token")
+	public String getAccessToken() {
+		return accessToken;
 	}
 	
-	public void setAuthToken(String authToken) {
-		this.authToken = authToken;
+	public void setAccessToken(String accessToken) {
+		this.accessToken = accessToken;
 	}
 
 	@XmlTransient

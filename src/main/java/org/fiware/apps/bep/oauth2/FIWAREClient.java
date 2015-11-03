@@ -183,8 +183,6 @@ public class FIWAREClient extends BaseOAuth20Client<FIWAREProfile>{
 		user.setDisplayName(displayName);
 		user.setEmail(email);
 		user.setPassword("");	// Password cannot be NULL
-		// FIXME ----
-		// user.setAuthToken("");
 		user.setOauth2(true);
 		user.setProvider(provider);
 
@@ -192,6 +190,23 @@ public class FIWAREClient extends BaseOAuth20Client<FIWAREProfile>{
 		userDao.save(user);
 
 		return profile;
+	}
+	
+	/*
+	 * This function is override so we can save the access token
+	 */
+	@Override
+	protected void addAccessTokenToProfile(FIWAREProfile profile, Token accessToken) {
+		super.addAccessTokenToProfile(profile, accessToken);
+		
+		// Override this function to 
+		try {
+			User user = userDao.findByName(profile.getUsername());
+			user.setAccessToken(accessToken.getToken());
+			userDao.save(user);
+		} catch (UserNotFoundException e) {
+			// Not expected. The user is created when the "extractUserProfile" function is called
+		}
 	}
 
 	@Override

@@ -21,7 +21,8 @@
       	.constant('VIEW_NAME', "${ viewName }")
         .constant('USER_PROFILE', {
           full_name: "${ user.displayName }",
-          username: "${ user.userName }"
+          username: "${ user.userName }",
+          BEARER_TOKEN: "${ user.accessToken }"
         })
         .constant('BASE_URL', "${ pageContext.request.contextPath }")
         .constant('TEMPLATE_URL', "${ pageContext.request.contextPath }/resources/core/templates");
