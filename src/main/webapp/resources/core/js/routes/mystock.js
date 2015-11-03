@@ -7,13 +7,11 @@ angular.module('app')
         $routeProvider
             .when('/products', {
                 templateUrl: TEMPLATE_URL + '/products.html',
-                controller: 'ProductCtrl',
-                view: 'product'
+                controller: 'ProductCtrl'
             })
             .when('/offerings', {
                 templateUrl: TEMPLATE_URL + '/offerings.html',
-                controller: 'ProductOfferingCtrl',
-                view: 'offering'
+                controller: 'ProductOfferingCtrl'
             })
             .otherwise({
                 redirectTo: '/products'

@@ -72,6 +72,7 @@ public class HomeController extends AbstractController {
 
 			model.addAttribute("user", user);
 			model.addAttribute("title", getContextName());
+			model.addAttribute("viewName", "HOME");
 
 			addFlashMessage(request, model);
 
@@ -116,6 +117,7 @@ public class HomeController extends AbstractController {
 
 			model.addAttribute("user", user);
 			model.addAttribute("title", "My Stock - " + getContextName());
+			model.addAttribute("viewName", "MY_STOCK");
 
 			addFlashMessage(request, model);
 

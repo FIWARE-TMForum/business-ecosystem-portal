@@ -3,8 +3,10 @@
  */
 
 angular.module('app')
-    .controller('UserController', ['$scope', '$route', 'BASE_URL', 'userServ', function ($scope, $route, BASE_URL, userServ) {
+    .controller('UserController', ['$scope', '$route', 'BASE_URL', 'VIEW_NAME', 'userServ', function ($scope, $route, BASE_URL, VIEW_NAME, userServ) {
         $scope.credentials = {};
+        $scope.view = VIEW_NAME;
+        $scope.$route = $route;
         $scope.signOut = function signOut() {
             return userServ.signOut();
         };
@@ -117,5 +119,8 @@ angular.module('app')
 
         ProductCategory.list();
     }])
-    .controller('MyStockController', ['$scope', function ($scope) {
+    .controller('MyStockController', ['$scope', '$rootScope', function ($scope, $rootScope) {
+        $scope.$on("$routeChangeStart", function (event, next) {
+        	$scope.activeController = next.controller;
+        });
     }]);

@@ -8,8 +8,8 @@
       </div>
       <div class="panel-body">
         <ul class="nav nav-pills nav-stacked">
-          <li><a href="#/products">Products</a></li>
-          <li><a href="#/offerings">Offerings</a></li>
+          <li ng-class="{'active': activeController == 'ProductCtrl'}"><a href="#/products">Products</a></li>
+          <li ng-class="{'active': activeController == 'ProductOfferingCtrl'}"><a href="#/offerings">Offerings</a></li>
         </ul>
       </div>
     </div>

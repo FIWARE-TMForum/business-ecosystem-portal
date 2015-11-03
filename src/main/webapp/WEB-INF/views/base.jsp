@@ -17,7 +17,8 @@
     <script src="${ pageContext.request.contextPath }/resources/angular-1.4.7/js/angular-resource.js"></script>
     <script src="${ pageContext.request.contextPath }/resources/angular-1.4.7/js/angular-route.js"></script>
     <script>
-      angular.module('app', ['app.services', 'ngRoute'])
+      angular.module('app', ['ngRoute', 'app.services'])
+      	.constant('VIEW_NAME', "${ viewName }")
         .constant('USER_PROFILE', {
           full_name: "${ user.displayName }",
           username: "${ user.userName }"
