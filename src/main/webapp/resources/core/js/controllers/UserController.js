@@ -8,7 +8,7 @@ angular.module('app.controllers')
         $scope.$userRole = LOGGED_USER.ROLE;
 
         $scope.signOut = function signOut() {
-            return $scope.signOutForm.submit();
+            return document.signOutForm.submit();
         };
     }])
     .controller('UserCustomerView', ['$scope', '$rootScope', 'EVENTS', 'User', 'Catalogue', 'Category', function ($scope, $rootScope, EVENTS, User, Catalogue, Category) {

@@ -105,6 +105,7 @@
         </div>
       </div>
     </div>
+    <form name="signOutForm" method="post" action="${ pageContext.request.contextPath }/logout"></form>
     <footer class="clearfix">
       <hr class="fiware-line">
       <div class="col-sm-6">
