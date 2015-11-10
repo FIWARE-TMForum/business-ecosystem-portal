@@ -1,6 +1,3 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="t" uri="http://tiles.apache.org/tags-tiles" %>
-
 <div class="row" ng-controller="UserCustomerView">
   <div class="col-sm-3">
     <div class="panel panel-default" ng-controller="CatalogueListCtrl">
@@ -73,5 +70,4 @@
       </div>
     </div>
   </div>
-  <t:insertTemplate template="/WEB-INF/views/modals/settings-modal.jsp" />
 </div>

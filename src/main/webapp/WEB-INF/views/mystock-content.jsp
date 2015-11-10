@@ -1,5 +1,3 @@
-<%@ taglib prefix="t" uri="http://tiles.apache.org/tags-tiles" %>
-
 <div class="row" ng-controller="UserSellerView">
   <div class="col-sm-12">
     <div class="panel panel-default">
@@ -14,4 +12,3 @@
   </div>
   <div class="col-sm-12" ng-view></div>
 </div>
-<t:insertTemplate template="/WEB-INF/views/modals/settings-modal.jsp" />

@@ -8,33 +8,22 @@
     <definition name="app.anon" template="/WEB-INF/views/base.jsp">
     </definition>
 
-    <definition name="app.auth" extends="app.anon">
-        <put-attribute name="navbar" value="/WEB-INF/views/base-navbar.jsp" />
-    </definition>
-
     <!-- ANONYMOUS USER -->
-
-    <!-- Login View -->
-    <definition name="app.landing" extends="app.anon">
-        <put-attribute name="content" value="/WEB-INF/views/landing-content.jsp" />
-    </definition>
 
     <!-- Error View -->
     <definition name="core.error" extends="app.anon">
-        <put-attribute name="navbar" value="/WEB-INF/views/core/error-navbar.jsp" />
         <put-attribute name="content" value="/WEB-INF/views/core/error-content.jsp" />
     </definition>
 
     <!-- AUTHENTICATED USER -->
 
     <!-- Home View -->
-    <definition name="app.home" extends="app.auth">
+    <definition name="app.home" extends="app.anon">
         <put-attribute name="content" value="/WEB-INF/views/home-content.jsp" />
     </definition>
 
     <!-- My Stock View -->
-    <definition name="app.mystock" extends="app.auth">
-        <put-attribute name="routes" value="/WEB-INF/views/mystock-routes.jsp" />
+    <definition name="app.mystock" extends="app.anon">
         <put-attribute name="content" value="/WEB-INF/views/mystock-content.jsp" />
     </definition>
 
