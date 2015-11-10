@@ -17,22 +17,33 @@
     <script src="${ pageContext.request.contextPath }/resources/angular-1.4.7/js/angular-resource.js"></script>
     <script src="${ pageContext.request.contextPath }/resources/angular-1.4.7/js/angular-route.js"></script>
     <script>
-      angular.module('app', ['ngRoute', 'app.services'])
-      	.constant('VIEW_NAME', "${ viewName }")
-        .constant('USER_PROFILE', {
-          full_name: "${ user.displayName }",
-          username: "${ user.userName }",
-          BEARER_TOKEN: "${ user.accessToken }"
-        })
-        .constant('BASE_URL', "${ pageContext.request.contextPath }")
-        .constant('TEMPLATE_URL', "${ pageContext.request.contextPath }/resources/core/templates");
+        angular.module('app', ['ngRoute', 'ngResource', 'app.services', 'app.controllers'])
+            .constant('URLS', {
+                TEMPLATE: '${ pageContext.request.contextPath }/resources/core/templates',
+                PRODUCT: 'http://130.206.121.54/DSPRODUCTCATALOG2/api/catalogManagement/v2/productSpecification/:id',
+                PRODUCT_CATALOGUE: 'http://130.206.121.54/DSPRODUCTCATALOG2/api/catalogManagement/v2/catalog/:id',
+                PRODUCT_CATEGORY: 'http://130.206.121.54/DSPRODUCTCATALOG2/api/catalogManagement/v2/category/:id'
+            })
+            .constant('LOGGED_USER', {
+                ID: '${ user.userName }',
+                ROLE: '${ viewName }',
+                HREF: '${ pageContext.request.contextPath }/api/v2/user/${ user.userName }',
+                BEARER_TOKEN: 'Bearer ${ user.accessToken }'
+            });
     </script>
     <script src="${ pageContext.request.contextPath }/resources/core/js/app.js"></script>
-    <t:insertAttribute name="routes" ignore="true" />
-    <script src="${ pageContext.request.contextPath }/resources/core/js/services.js"></script>
-    <script src="${ pageContext.request.contextPath }/resources/core/js/controllers.js"></script>
+    <script src="${ pageContext.request.contextPath }/resources/core/js/services/UserService.js"></script>
+    <script src="${ pageContext.request.contextPath }/resources/core/js/services/ProductService.js"></script>
+    <script src="${ pageContext.request.contextPath }/resources/core/js/services/ProductCatalogueService.js"></script>
+    <script src="${ pageContext.request.contextPath }/resources/core/js/services/ProductCategoryService.js"></script>
+    <script src="${ pageContext.request.contextPath }/resources/core/js/controllers/UserController.js"></script>
+    <script src="${ pageContext.request.contextPath }/resources/core/js/controllers/ProductController.js"></script>
+    <script src="${ pageContext.request.contextPath }/resources/core/js/controllers/ProductOfferingController.js"></script>
+    <script src="${ pageContext.request.contextPath }/resources/core/js/controllers/ProductCatalogueController.js"></script>
+    <script src="${ pageContext.request.contextPath }/resources/core/js/controllers/ProductCategoryController.js"></script>
+    <script src="${ pageContext.request.contextPath }/resources/core/js/routes.js"></script>
   </head>
-  <body ng-app="app" ng-controller="UserController">
+  <body ng-app="app" ng-controller="UserCtrl">
     <nav class="navbar navbar-default navbar-static-top">
       <div class="container">
         <div class="navbar-header">
@@ -43,26 +54,62 @@
           </button>
           <a class="navbar-brand" href="${ pageContext.request.contextPath }">
             <img src="${ pageContext.request.contextPath }/resources/core/images/tmforum-logo.png">
-            <p class="text-right title-uppercase">Portal</p>
+            <span class="text-right">Portal</span>
           </a>
         </div>
-        <div class="collapse navbar-collapse" id="navbar-right">
+        <div id="navbar-right" class="collapse navbar-collapse">
           <ul class="nav navbar-nav navbar-right">
-            <t:insertAttribute name="navbar" ignore="true" />
+            <li ng-class="{'active': $userRole == 'Customer'}"><a href="${ pageContext.request.contextPath }"><i class="fa fa-newspaper-o fa-fw"></i>&nbsp; Marketplace</a></li>
+            <li ng-class="{'active': $userRole == 'Seller'}"><a href="${ pageContext.request.contextPath }/mystock"><i class="fa fa-cubes fa-fw"></i>&nbsp; My stock</a></li>
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user fa-fw"></i>&nbsp; ${ user.displayName } <i class="fa fa-caret-down"></i></a>
+              <ul class="dropdown-menu">
+                <li><a data-toggle="modal" data-target="#settings-modal"><i class="fa fa-cog fa-fw"></i>&nbsp; Settings</a></li>
+                <li><a ng-click="signOut()"><i class="fa fa-sign-out fa-fw"></i>&nbsp; Sign out</a></li>
+              </ul>
+            </li>
           </ul>
         </div>
       </div>
     </nav>
     <div class="container">
-      <div class="alert-manager" ng-controller="MessageController">
-        <div class="alert alert-success" ng-class="{'hidden': hidden}">
-          <strong>Done!</strong> <span class="alert-message" ng-bind-html="message"></span>
+      <t:insertAttribute name="content" />
+      <div id="settings-modal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+              <div class="modal-title">Settings</div>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-sm-10 col-sm-offset-1">
+                  <ul class="nav nav-tabs">
+                    <li class="active"><a href="#">Profile</a></li>
+                  </ul>
+                  <form name="userUpdateForm">
+                    <div class="form-group">
+                      <label>Username</label>
+                      <input type="text" class="form-control" placeholder="${ user.userName }" readonly>
+                    </div>
+                    <div class="form-group">
+                      <label>Email</label>
+                      <input type="text" class="form-control" placeholder="${ user.email }" readonly>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
         </div>
       </div>
-      <t:insertAttribute name="content" />
     </div>
+    <form name="signOutForm" method="post" action="${ pageContext.request.contextPath }/logout"></form>
     <footer class="clearfix">
-      <hr class="hr-fiware">
+      <hr class="fiware-line">
       <div class="col-sm-6">
         <ul class="list-inline">
           <li class="text-muted"><small>© 2015 CoNWeT Lab., Universidad Politécnica de Madrid</small></li>

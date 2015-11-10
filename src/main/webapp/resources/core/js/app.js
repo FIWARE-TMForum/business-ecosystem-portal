@@ -1,21 +1,27 @@
 /**
- * 
+ *
  */
 
 angular.module('app')
-    .constant('TMFORUM_URL', 'http://130.206.121.54/DSPRODUCTCATALOG2')
-    .directive('bsModal', function () {
-        var modals = {};
-
+    .constant('EVENTS', {
+        CATALOGUE_SHOW: '$catalogueShow',
+        CATALOGUE_SELECT: '$catalogueSelect',
+        CATALOGUE_CREATEFORM_SHOW: '$catalogueCreateFormShow',
+        CATALOGUE_UPDATEFORM_SHOW: '$catalogueUpdateFormShow',
+        CATEGORY_SHOW: '$categoryShow',
+        CATEGORY_SELECT: '$categorySelect'
+    })
+    .directive('bsTooltip', function () {
         return {
             restrict: 'A',
             link: function (scope, element, attrs) {
-                modals[attrs.id] = element;
-                scope.modals = modals;
+                element.tooltip();
             }
         };
     })
-    .config(['$httpProvider', function ($httpProvider) {
-        $httpProvider.defaults.useXDomain = true;
-        delete $httpProvider.defaults.headers.common['X-Requested-With'];
+    .config(['$httpProvider', 'LOGGED_USER', function ($httpProvider, LOGGED_USER) {
+        $httpProvider.defaults.headers.common['AUTHORIZATION'] = LOGGED_USER.BEARER_TOKEN;
     }]);
+
+angular.module('app.services', []);
+angular.module('app.controllers', []);
