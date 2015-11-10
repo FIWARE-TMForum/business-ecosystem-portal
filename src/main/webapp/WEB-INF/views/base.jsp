@@ -17,22 +17,31 @@
     <script src="${ pageContext.request.contextPath }/resources/angular-1.4.7/js/angular-resource.js"></script>
     <script src="${ pageContext.request.contextPath }/resources/angular-1.4.7/js/angular-route.js"></script>
     <script>
-      angular.module('app', ['ngRoute', 'app.services'])
-      	.constant('VIEW_NAME', "${ viewName }")
-        .constant('USER_PROFILE', {
-          full_name: "${ user.displayName }",
-          username: "${ user.userName }",
-          BEARER_TOKEN: "${ user.accessToken }"
-        })
-        .constant('BASE_URL', "${ pageContext.request.contextPath }")
-        .constant('TEMPLATE_URL', "${ pageContext.request.contextPath }/resources/core/templates");
+        angular.module('app', ['ngRoute', 'ngResource', 'app.services', 'app.controllers'])
+            .constant('URLS', {
+                TEMPLATE: '${ pageContext.request.contextPath }/resources/core/templates',
+                PRODUCT_CATALOGUE: 'http://130.206.121.54/DSPRODUCTCATALOG2/api/catalogManagement/v2/catalog/:id',
+                PRODUCT_CATEGORY: 'http://130.206.121.54/DSPRODUCTCATALOG2/api/catalogManagement/v2/category/:id'
+            })
+            .constant('LOGGED_USER', {
+                ID: '${ user.userName }',
+                ROLE: '${ viewName }',
+                HREF: '${ pageContext.request.contextPath }/api/v2/user/${ user.userName }',
+                BEARER_TOKEN: 'Bearer ${ user.accessToken }'
+            });
     </script>
     <script src="${ pageContext.request.contextPath }/resources/core/js/app.js"></script>
-    <t:insertAttribute name="routes" ignore="true" />
-    <script src="${ pageContext.request.contextPath }/resources/core/js/services.js"></script>
-    <script src="${ pageContext.request.contextPath }/resources/core/js/controllers.js"></script>
+    <script src="${ pageContext.request.contextPath }/resources/core/js/services/UserService.js"></script>
+    <script src="${ pageContext.request.contextPath }/resources/core/js/services/ProductCatalogueService.js"></script>
+    <script src="${ pageContext.request.contextPath }/resources/core/js/services/ProductCategoryService.js"></script>
+    <script src="${ pageContext.request.contextPath }/resources/core/js/controllers/UserController.js"></script>
+    <script src="${ pageContext.request.contextPath }/resources/core/js/controllers/ProductController.js"></script>
+    <script src="${ pageContext.request.contextPath }/resources/core/js/controllers/ProductOfferingController.js"></script>
+    <script src="${ pageContext.request.contextPath }/resources/core/js/controllers/ProductCatalogueController.js"></script>
+    <script src="${ pageContext.request.contextPath }/resources/core/js/controllers/ProductCategoryController.js"></script>
+    <script src="${ pageContext.request.contextPath }/resources/core/js/routes.js"></script>
   </head>
-  <body ng-app="app" ng-controller="UserController">
+  <body ng-app="app" ng-controller="UserCtrl">
     <nav class="navbar navbar-default navbar-static-top">
       <div class="container">
         <div class="navbar-header">
@@ -54,15 +63,10 @@
       </div>
     </nav>
     <div class="container">
-      <div class="alert-manager" ng-controller="MessageController">
-        <div class="alert alert-success" ng-class="{'hidden': hidden}">
-          <strong>Done!</strong> <span class="alert-message" ng-bind-html="message"></span>
-        </div>
-      </div>
       <t:insertAttribute name="content" />
     </div>
     <footer class="clearfix">
-      <hr class="hr-fiware">
+      <hr class="fiware-line">
       <div class="col-sm-6">
         <ul class="list-inline">
           <li class="text-muted"><small>© 2015 CoNWeT Lab., Universidad Politécnica de Madrid</small></li>
