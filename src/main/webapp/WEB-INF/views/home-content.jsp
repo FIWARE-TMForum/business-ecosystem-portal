@@ -1,77 +1,77 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="t" uri="http://tiles.apache.org/tags-tiles" %>
 
-<div class="row" ng-controller="HomeController">
+<div class="row" ng-controller="UserCustomerView">
   <div class="col-sm-3">
-    <div class="panel panel-default panel-catalogue" ng-controller="ProductCatalogueCtrl">
+    <div class="panel panel-default" ng-controller="CatalogueListCtrl">
       <div class="panel-heading">
-        <span class="panel-title title-uppercase">Catalogues</span>
+        <span class="panel-title">Catalogues</span>
       </div>
       <div class="panel-body">
         <div class="form-group">
           <div class="input-group">
-            <input type="text" class="form-control" placeholder="Search for catalogue">
+            <input type="text" class="form-control" placeholder="Search for">
             <div class="input-group-btn">
               <button type="button" class="btn btn-default"><i class="fa fa-search fa-flip-horizontal"></i></button>
-              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><i class="fa fa-caret-down"></i></button>
-              <ul class="dropdown-menu dropdown-menu-right">
-                <li><a ng-click="showCreateForm()"><i class="fa fa-plus-circle fa-fw"></i>&nbsp; Create new catalogue</a></li>
-              </ul>
             </div>
           </div>
         </div>
-        <t:insertTemplate template="/WEB-INF/views/modals/catalogue-create-modal.jsp" />
         <div class="list-group">
-          <a class="list-group-item" ng-class="{'active': !catalogueSelected}" ng-click="selectCatalogue()"><i class="fa fa-home fa-fw"></i>&nbsp; Home</a>
-          <a class="list-group-item active" ng-click="selectCatalogue(catalogueSelected)" ng-hide="!catalogueSelected"><i class="fa fa-book fa-fw"></i>&nbsp; {{ catalogueSelected.name }}</a>
+          <a class="list-group-item" ng-class="{'active': !$catalogueItem}" ng-click="select()"><i class="fa fa-home fa-fw"></i>&nbsp; Home</a>
+          <a class="list-group-item active" ng-click="select($catalogueItem)" ng-if="$catalogueItem != null">{{ $catalogueItem.name }}</a>
         </div>
         <hr>
         <div class="list-group">
-          <a class="list-group-item" ng-class="{'disabled': catalogue.active}" ng-click="selectCatalogue(catalogue)" ng-repeat="catalogue in catalogueList"><i class="fa fa-book fa-fw"></i>&nbsp; {{ catalogue.name }}</a>
+          <a class="list-group-item" ng-repeat="$catalogue in $catalogueList" ng-class="{'disabled': isSelected($catalogue)}" ng-click="select($catalogue)">{{ $catalogue.name }}</a>
         </div>
-        <div class="text-center">
-          <ul class="pagination pagination-sm">
-            <li class="disabled"><a><i class="fa fa-arrow-left"></i></a></li>
-            <li class="disabled"><a><i class="fa fa-arrow-right"></i></a></li>
-          </ul>
-        </div>
+        <ul class="pager">
+          <li class="disabled"><a><i class="fa fa-arrow-left"></i></a></li>
+          <li class="disabled"><a><i class="fa fa-arrow-right"></i></a></li>
+        </ul>
       </div>
     </div>
-    <div class="panel panel-default panel-category" ng-controller="ProductCategoryCtrl">
+    <div class="panel panel-default" ng-controller="CategoryListCtrl">
       <div class="panel-heading">
-        <span class="panel-title title-uppercase">Categories</span>
+        <span class="panel-title">Categories</span>
       </div>
       <div class="panel-body">
         <div class="form-group">
           <div class="input-group">
-            <input type="text" class="form-control" placeholder="Search for category">
+            <input type="text" class="form-control" placeholder="Search for">
             <div class="input-group-btn">
               <button type="button" class="btn btn-default"><i class="fa fa-search fa-flip-horizontal"></i></button>
-              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><i class="fa fa-caret-down"></i></button>
-              <ul class="dropdown-menu dropdown-menu-right">
-                <li><a ng-click="showCreateForm()"><i class="fa fa-plus-circle fa-fw"></i>&nbsp; Create new category</a></li>
-              </ul>
             </div>
           </div>
         </div>
-        <t:insertTemplate template="/WEB-INF/views/modals/category-create-modal.jsp" />
         <div class="list-group">
-          <a class="list-group-item" ng-class="{'active': !categorySelected}" ng-click="selectCategory()"><i class="fa fa-tags fa-fw"></i>&nbsp; All offerings</a>
-          <a class="list-group-item active" ng-click="selectCategory(categorySelected)" ng-hide="!categorySelected"><i class="fa fa-tag fa-fw"></i>&nbsp; {{ categorySelected.name }}</a>
+          <a class="list-group-item" ng-class="{'active': !$categoryItem}" ng-click="select()"><i class="fa fa-tags fa-fw"></i>&nbsp; All offerings</a>
+          <a class="list-group-item active" ng-click="select($categoryItem)" ng-hide="!$categoryItem">{{ $categoryItem.name }}</a>
         </div>
         <hr>
         <div class="list-group">
-          <a class="list-group-item" ng-class="{'disabled': category.active}" ng-click="selectCategory(category)" ng-repeat="category in categoryList"><i class="fa fa-tag fa-fw"></i>&nbsp; {{ category.name }}</a>
+          <a class="list-group-item" ng-repeat="$category in $categoryList" ng-class="{'disabled': $category.active}" ng-click="select($category)">{{ $category.name }}</a>
         </div>
-        <div class="text-center">
-          <ul class="pagination pagination-sm">
-            <li class="disabled"><a><i class="fa fa-arrow-left"></i></a></li>
-            <li class="disabled"><a><i class="fa fa-arrow-right"></i></a></li>
-          </ul>
-        </div>
+        <ul class="pager">
+          <li class="disabled"><a><i class="fa fa-arrow-left"></i></a></li>
+          <li class="disabled"><a><i class="fa fa-arrow-right"></i></a></li>
+        </ul>
       </div>
     </div>
   </div>
-  <div class="col-sm-9"></div>
+  <div class="col-sm-9" ng-controller="CatalogueDetailCtrl">
+    <div class="panel panel-default panel-category" ng-if="$catalogue != null">
+      <div class="panel-heading">
+        <span class="panel-title">{{ $catalogue.name }}</span>
+        <div class="panel-options text-right">
+          <button type="button" class="btn btn-sm btn-primary" bs-tooltip data-title="New offering"><i class="fa fa-cube fa-fw"></i></button>
+        </div>
+      </div>
+      <div class="panel-body">
+        <blockquote ng-if="$catalogue.description">
+          <p>{{ $catalogue.description }}</p>
+        </blockquote>
+      </div>
+    </div>
+  </div>
   <t:insertTemplate template="/WEB-INF/views/modals/settings-modal.jsp" />
 </div>
