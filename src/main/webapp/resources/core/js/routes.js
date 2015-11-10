@@ -23,7 +23,7 @@ angular.module('app')
                     controller: 'OfferingView'
                 })
                 .otherwise({
-                    redirectTo: '/catalogues'
+                    redirectTo: '/products'
                 });
             break;
         default:

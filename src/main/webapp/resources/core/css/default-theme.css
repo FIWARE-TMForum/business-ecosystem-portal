@@ -56,6 +56,10 @@ blockquote p {
  *   COMPONENT - FORM-CONTROL
  * =================================================================================== */
 
+.form-inline {
+    margin-bottom: 15px;
+}
+
 .form-control {
     border-color: rgb(200, 200, 200);
     border-radius: 0;
@@ -210,7 +214,13 @@ blockquote p {
  * =================================================================================== */
 
 .navbar {
-    margin-bottom: 50px;
+    margin-bottom: 15px;
+}
+
+@media (min-width: 768px) {
+    .navbar {
+        border-radius: 0;
+    }
 }
 
 .navbar-brand {
@@ -278,6 +288,10 @@ blockquote p {
     color: rgb(250, 120, 040);
     background-color: rgb(252, 252, 252);
     border-color: rgb(250, 120, 040);
+}
+
+.navbar-static-top {
+    margin-bottom: 50px;
 }
 
 /* ===================================================================================

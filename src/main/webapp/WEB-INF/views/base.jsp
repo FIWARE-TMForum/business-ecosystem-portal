@@ -20,6 +20,7 @@
         angular.module('app', ['ngRoute', 'ngResource', 'app.services', 'app.controllers'])
             .constant('URLS', {
                 TEMPLATE: '${ pageContext.request.contextPath }/resources/core/templates',
+                PRODUCT: 'http://130.206.121.54/DSPRODUCTCATALOG2/api/catalogManagement/v2/productSpecification/:id',
                 PRODUCT_CATALOGUE: 'http://130.206.121.54/DSPRODUCTCATALOG2/api/catalogManagement/v2/catalog/:id',
                 PRODUCT_CATEGORY: 'http://130.206.121.54/DSPRODUCTCATALOG2/api/catalogManagement/v2/category/:id'
             })
@@ -32,6 +33,7 @@
     </script>
     <script src="${ pageContext.request.contextPath }/resources/core/js/app.js"></script>
     <script src="${ pageContext.request.contextPath }/resources/core/js/services/UserService.js"></script>
+    <script src="${ pageContext.request.contextPath }/resources/core/js/services/ProductService.js"></script>
     <script src="${ pageContext.request.contextPath }/resources/core/js/services/ProductCatalogueService.js"></script>
     <script src="${ pageContext.request.contextPath }/resources/core/js/services/ProductCategoryService.js"></script>
     <script src="${ pageContext.request.contextPath }/resources/core/js/controllers/UserController.js"></script>
